@@ -1,0 +1,410 @@
+package metode;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+import com.mysql.jdbc.PreparedStatement;
+
+import entiteti.Lek;
+import entiteti.Lekar;
+import entiteti.Mesto;
+import entiteti.Pacijent;
+import entiteti.Proizvodjac;
+import entiteti.ZdravstvenaUstanova;
+import entiteti.Zvanje;
+
+public class ManipulacijaSaBazom {
+	
+
+//*********** FREJM 3 *********Dodavanje (Insertovanje) pacijenata u bazu************************************
+	
+	public boolean UnosPacijenta (Pacijent pacijent){
+		PreparedStatement ps= null; 				// klasu preparedstatement koristim za pisanje SQL upita
+		
+		try{
+			Konekcija.getKonekcija().setAutoCommit(false);				//ukoliko se ne pozove setAutoCommit metod upit se posle ekzekucije automatski izvrsava
+			ps=(PreparedStatement) Konekcija.getKonekcija().prepareStatement("INSERT INTO Pacijent (Jmbg_pacijent, PTT, Ime_oca, Ime, Prezime, Datum_rodjenja, Broj_telefona, Ulica_i_broj) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+												
+													//setovanje i getovanje vrednosti
+			
+			ps.setInt(1, pacijent.getJmbgPacijent());
+			ps.setInt(2, pacijent.getPTT());
+			ps.setString(3, pacijent.getImeOca());
+			ps.setString(4, pacijent.getIme());
+			ps.setString(5, pacijent.getPrezime());
+			ps.setDate(6, pacijent.getDatumRodjenja());
+			ps.setString(7, pacijent.getBrojTelefona());
+			ps.setString(8, pacijent.getUlicaiBroj());
+			
+			
+			ps.executeUpdate();						//izvrsavanje upita
+			
+			Konekcija.getKonekcija().commit();		//izvrsavanje upita
+			
+			return true;
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			try {
+				ps.close();						// zatvaranje konekcije
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+			}		
+		}
+		
+	};
+//********** FREJM 3 **********Selektovanje PTT na osnovu Naziva mesta iz baze za INSERTOVANJE pacijenata****************************************
+	public String UzimanjeIDnaOsnovuNazivaMesta (String NazivMesta){
+		int ptt = 0;
+		String pttString = "";
+		Statement st= null;
+		try {
+			st = Konekcija.getKonekcija().createStatement();
+			ResultSet rs = st.executeQuery("SELECT PTT FROM mesto WHERE Naziv_mesta='" + NazivMesta + "'");
+			
+			return rs.getString(1).toString();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+//********** FREJM 8 **********Dodavanje (Insertovanje) lekara u bazu****************************************
+	
+	public boolean UnosLekara (Lekar lekar){
+		
+		PreparedStatement ps=null;
+		
+		try{
+			Konekcija.getKonekcija().setAutoCommit(false);
+			ps=(PreparedStatement) Konekcija.getKonekcija().prepareStatement("INSERT INTO Lekar(Jmbg_lekar, PTT, Zvanje_ID, Ime, Prezime, Korisnicko_ime, Sifra, Datum_rodjenja, Ulica_i_broj, Broj_telefona)VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			ps.setInt(1, lekar.getJmbgLekar());
+			ps.setInt(2, lekar.getPTT());
+			ps.setInt(3, lekar.getZvanjeID());
+			ps.setString(4, lekar.getIme());
+			ps.setString(5, lekar.getPrezime());
+			ps.setString(6, lekar.getKorisnicnoIme());
+			ps.setInt(7, lekar.getSifra());
+			ps.setDate(8, lekar.getDatumRodjenja());
+			ps.setString(9, lekar.getUlicaiBroj());
+			ps.setString(10, lekar.getBrojTelefona());
+			
+			ps.executeUpdate();
+			
+			Konekcija.getKonekcija().commit();
+			
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			try{
+				ps.close();
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+	}
+//********** FREJM 11 **************Dodavanje (Insertovanje) leka u bazu****************************************
+	
+	public boolean UnosLeka (Lek lek, Proizvodjac proizvodjac){
+		PreparedStatement ps=null;
+		
+		try{
+			Konekcija.getKonekcija().setAutoCommit(false);
+			ps=(PreparedStatement) Konekcija.getKonekcija().prepareStatement("INSERT INTO Lek (Lek_ID, Proizvodjac_ID, Naziv_leka, Jacina)VALUES (?, ?, ?, ?)");
+			
+			ps.setInt(1, lek.getLekID());
+			ps.setInt(2, proizvodjac.getProizvodjac_ID());
+			ps.setString(3, lek.getNazivLeka());
+			ps.setString(4, lek.getJacina());
+			
+			ps.executeUpdate();
+			
+			Konekcija.getKonekcija().commit();
+			
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			try{
+				ps.close();
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+	}
+	
+//********** FREJM 3/FREJM5/FREJM 8/FREJM10 **********Selektovanje Naziva mesta u combobox******************************************
+	public static Vector<Mesto> SpisakNazivaMesta()
+	{
+		Vector <Mesto> vectorMesto = new Vector<Mesto>();
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Naziv_mesta FROM mesto");
+			Mesto mesto=null; //definise se promenljiva 
+			System.out.println(rs + " " + st);
+			while(rs.next()){
+				mesto = new Mesto();		//ovde se kreira objekat
+				mesto.setNazivMesta(rs.getString(1).toString());
+				vectorMesto.add(mesto);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				st.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return vectorMesto;
+	}
+//********** FREJM 8/FREJM10 **********Selektovanje Zvanja u combobox******************************************
+
+	public static Vector<Zvanje> SpisakZvanja(){
+		
+		Vector<Zvanje> vektorZvanje = new Vector<Zvanje>();
+		
+		Statement st= null;
+		ResultSet rs= null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Zvanje from zvanje");
+			
+			Zvanje zvanje=null;
+			while(rs.next()){
+				zvanje= new Zvanje();
+				zvanje.setZvanje(rs.getString(1).toString());
+				vektorZvanje.add(zvanje);
+				}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				rs.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+		return vektorZvanje;
+	}
+//********** FREJM 11/FREJM 13 **********Selektovanje Proizvodjaca u combobox******************************************
+	public static Vector <Proizvodjac> SpisakProizvodjaca(){
+		
+		Vector<Proizvodjac> vektorProizvodjac = new Vector<Proizvodjac>();
+		
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Naziv_proizvodjaca FROM proizvodjac");
+			
+			Proizvodjac proizvodjac=null;
+			while(rs.next()){
+				proizvodjac= new Proizvodjac();
+				proizvodjac.setNazivProizvodjaca(rs.getString(1).toString());
+				vektorProizvodjac.add(proizvodjac);
+			}}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				try{
+					rs.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+			
+		return vektorProizvodjac;
+		}
+//********** FREJM17 **********Selektovanje NazivaLeka u combobox******************************************
+	public static Vector<Lek> SpisakNazivaLekova(){
+		
+		Vector<Lek> vectorLek = new Vector<Lek>();
+		
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Naziv_leka FROM lek");
+			
+			Lek lek=null;
+			while(rs.next()){
+				lek= new Lek();
+				lek.setNazivLeka(rs.getString(1).toString());
+				vectorLek.add(lek);
+			}
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			}try{
+				rs.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}	
+			return vectorLek;
+	}
+//********** FREJM4 **********Selektovanje Pacijenata u combobox******************************************
+	public static Vector<Pacijent> SpisakPacijenata(){
+		
+		Vector<Pacijent> vektorPacijent= new Vector<Pacijent>();
+		
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Jmbg_pacijent, Ime_oca, Ime, Prezime FROM pacijent");
+			
+			Pacijent pacijent= null;
+			while(rs.next()){
+				pacijent= new Pacijent();
+				pacijent.setJmbgPacijent(rs.getInt(1));
+				pacijent.setIme(rs.getString(2).toString());
+				pacijent.setImeOca(rs.getString(3).toString());
+				pacijent.setPrezime(rs.getString(4).toString());
+				
+				vektorPacijent.add(pacijent);
+			}
+			System.out.println();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			}try{
+				rs.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}	
+			return vektorPacijent;
+	}
+//********** FREJM9 **********Selektovanje Lekara u combobox******************************************
+
+	public static Vector<Lekar> SpisakLekara(){
+		
+		Vector<Lekar> vektor= new Vector<Lekar>();
+		
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Jmbg_lekar, Ime, Prezime FROM lekar");
+			
+			Lekar lekar= null;
+			while(rs.next()){
+				lekar= new Lekar();
+				lekar.setJmbgLekar(rs.getInt(1));
+				lekar.setIme(rs.getString(2));
+				lekar.setPrezime(rs.getString(3));
+				
+				vektor.addElement(lekar);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			}try{
+				rs.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}	
+			return vektor;
+		
+	}
+//********** FREJM16 **********Selektovanje Zdravstvenih ustanova u combobox******************************************
+public static Vector<ZdravstvenaUstanova> SpisakZdravstvenihUstanova(){
+		
+		Vector<ZdravstvenaUstanova> vektor= new Vector<ZdravstvenaUstanova>();
+		
+		Statement st=null;
+		ResultSet rs=null;
+		
+		try{
+			st=Konekcija.getKonekcija().createStatement();
+			rs=st.executeQuery("SELECT Naziv_zdravstvene_ustanove FROM zdravstvena_ustanova");
+			
+			ZdravstvenaUstanova zdravstvenaUstanova= null;
+			while(rs.next()){
+				zdravstvenaUstanova= new ZdravstvenaUstanova();
+				zdravstvenaUstanova.setNazivZdravstveneUstanove(rs.getString(2));
+				
+				vektor.addElement(zdravstvenaUstanova);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			}try{
+				rs.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}	
+			return vektor;
+		}
+//********** FREJM12 **********Selektovanje Lekova u combobox******************************************
+public static Vector<Lek> SpisakLekova(){
+	
+	Vector<Lek> vektor = new Vector<Lek>();
+	
+	Statement st=null;
+	ResultSet rs=null;
+	ResultSet rs2=null;
+	
+	
+	try{
+		st=Konekcija.getKonekcija().createStatement();
+		rs=st.executeQuery("SELECT Naziv_leka FROM lek");
+		rs2=st.executeQuery("SELECT Naziv_proizvodjaca From proizvodjac");
+		
+		Proizvodjac proizvodjac=null;
+		Lek comboPromnljiva= null;
+		Lek lek=null;
+		while(rs.next()){
+			lek= new Lek();
+			proizvodjac.setNazivProizvodjaca(rs2.getString(2));
+			lek.setLekID(rs.getInt(1));
+			lek.setNazivLeka(rs.getString(3));
+			
+			vektor.add(lek);
+		}
+		
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally{
+		}try{
+			rs.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}	
+		return vektor;
+	}
+//********** FREJM1 **********Logovanje lekara******************************************
+
+}

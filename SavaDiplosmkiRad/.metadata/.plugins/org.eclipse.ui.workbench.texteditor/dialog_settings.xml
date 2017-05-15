@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="452" key="DIALOG_X_ORIGIN"/>
+		<item value="248" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="brisanje Preg" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="brisanje preg"/>
+			<item value="pregleda"/>
+			<item value="brisanje pre"/>
+			<item value="brisanje pregleda"/>
+			<item value="BrisanjePregleda"/>
+			<item value="brisanjepregleda"/>
+			<item value="brisanjepreg"/>
+			<item value="BrisanjeSelektovaneBolestiUTabeliSaPregledaIzBaze"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+			<item value="frameGlavniMeni"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="278" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="327" key="DIALOG_HEIGHT"/>
+		<item value="996" key="DIALOG_X_ORIGIN"/>
+		<item value="296" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

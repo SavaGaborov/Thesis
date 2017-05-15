@@ -1,0 +1,279 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import entiteti.Lekar;
+import entiteti.Mesto;
+import entiteti.Pacijent;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.util.Vector;
+import java.awt.event.ItemEvent;
+
+public class Frejmb10AžuriranjeLekara extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField TxtIme;
+	private JTextField TxtPrezime;
+	private JTextField TxtSifra;
+	private JTextField TxtKorisnickoIme;
+	private JTextField TxtBrojTelefona;
+	private JTextField TxtUlicaIBroj;
+	private JComboBox ComboRegion;
+	private JComboBox ComboMesto;
+	private JComboBox ComboZvanje;
+	public String PocetniNazivRegiona;
+	public String PocetniNazivMesta;
+	public String PocetniNazivZvanja;
+	public String JMBG;
+	public int ZvanjeID;
+	
+	public int PTT;
+	public int RegionID;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejmb10AžuriranjeLekara frame = new Frejmb10AžuriranjeLekara(null, null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param lekar 
+	 * @param jmbgLekar 
+	 */
+	public Frejmb10AžuriranjeLekara(Lekar lekar, String jmbgLekar) {
+		setTitle("A\u017Euriranje lekara");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 574, 443);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Ime");
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setBounds(10, 38, 46, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Prezime");
+		lblNewLabel_1.setForeground(Color.BLACK);
+		lblNewLabel_1.setBounds(10, 82, 72, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Korisni\u010Dko ime");
+		lblNewLabel_2.setForeground(Color.BLACK);
+		lblNewLabel_2.setBounds(81, 194, 86, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		TxtIme = new JTextField();
+		TxtIme.setEditable(false);
+		TxtIme.setBounds(66, 35, 101, 20);
+		contentPane.add(TxtIme);
+		TxtIme.setColumns(10);
+		
+		TxtPrezime = new JTextField();
+		TxtPrezime.setBounds(67, 79, 101, 20);
+		contentPane.add(TxtPrezime);
+		TxtPrezime.setColumns(10);
+		
+		TxtSifra = new JTextField();
+		TxtSifra.setBounds(55, 275, 128, 20);
+		contentPane.add(TxtSifra);
+		TxtSifra.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("\u0160ifra");
+		lblNewLabel_3.setForeground(Color.BLACK);
+		lblNewLabel_3.setBounds(101, 250, 46, 14);
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_5 = new JLabel("Zvanje");
+		lblNewLabel_5.setForeground(Color.BLACK);
+		lblNewLabel_5.setBounds(305, 110, 46, 14);
+		contentPane.add(lblNewLabel_5);
+		
+		TxtKorisnickoIme = new JTextField();
+		TxtKorisnickoIme.setBounds(55, 219, 128, 20);
+		contentPane.add(TxtKorisnickoIme);
+		TxtKorisnickoIme.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("Broj telefona");
+		lblNewLabel_6.setForeground(Color.BLACK);
+		lblNewLabel_6.setBounds(305, 250, 72, 14);
+		contentPane.add(lblNewLabel_6);
+		
+		TxtBrojTelefona = new JTextField();
+		TxtBrojTelefona.setBounds(305, 275, 133, 20);
+		contentPane.add(TxtBrojTelefona);
+		TxtBrojTelefona.setColumns(10);
+		
+		JButton btnNewButton = new JButton("A\u017Eurirajte lekara");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+ManipulacijaSaBazom msbp = new ManipulacijaSaBazom();
+				
+				String NazivMesta =  ComboMesto.getSelectedItem().toString();
+				int PTTAzuriranje = Integer.parseInt(ManipulacijaSaBazom.UzimanjeIDnaOsnovuNazivaMesta(NazivMesta));
+				
+				
+				String NazivZvanja = ComboZvanje.getSelectedItem().toString();
+				int ZvanjeIDAzuriranje = Integer.parseInt(ManipulacijaSaBazom.SelektovanjeIDZvanjaNaOsnovuNazivaZvanja(NazivZvanja));
+				
+				
+				
+				Lekar AzuriranLekar = new Lekar(); // napravi se nova instanca i getuju je vrednosti ponovo iz razloga ukoliko je doslo do neke promene
+				
+				try {
+
+				AzuriranLekar.setJmbgLekar(JMBG);
+				AzuriranLekar.setPTT(PTTAzuriranje);
+				AzuriranLekar.setZvanjeID(ZvanjeIDAzuriranje);
+				AzuriranLekar.setIme(TxtIme.getText());
+				AzuriranLekar.setPrezime(TxtPrezime.getText());
+				AzuriranLekar.setKorisnicnoIme(TxtKorisnickoIme.getText());
+				AzuriranLekar.setSifra(Integer.parseInt(TxtSifra.getText()));
+				AzuriranLekar.setBrojTelefona(TxtBrojTelefona.getText());
+				AzuriranLekar.setUlicaiBroj(TxtUlicaIBroj.getText());
+				
+				
+				boolean UspesnoAzuriranje = msbp.AzuriranjeLekara(AzuriranLekar);
+				
+				if (UspesnoAzuriranje) {
+					JOptionPane.showMessageDialog(null, "Uspešno ste ažurirali podatke o lekaru");
+					dispose();
+					Frejm2GlavniMeni Azuriran = new Frejm2GlavniMeni(jmbgLekar);
+					Azuriran.setVisible(true);
+				}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Molimo Vas ponovo unesite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+
+				}
+			}
+		});
+		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBounds(305, 343, 193, 20);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Nazad");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm9AžuriranjeLekara Nazad = new Frejm9AžuriranjeLekara(jmbgLekar);
+				Nazad.setVisible(true);
+			}
+		});
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.BLACK);
+		btnNewButton_1.setBounds(305, 374, 193, 20);
+		contentPane.add(btnNewButton_1);
+		
+		JLabel lblUlicaIBroj = new JLabel("Ulica i broj");
+		lblUlicaIBroj.setForeground(Color.BLACK);
+		lblUlicaIBroj.setBounds(305, 194, 95, 14);
+		contentPane.add(lblUlicaIBroj);
+		
+		JLabel lblMestoStanovanja = new JLabel("Mesto");
+		lblMestoStanovanja.setForeground(Color.BLACK);
+		lblMestoStanovanja.setBounds(305, 66, 101, 14);
+		contentPane.add(lblMestoStanovanja);
+		
+		TxtUlicaIBroj = new JTextField();
+		TxtUlicaIBroj.setBounds(305, 219, 193, 20);
+		contentPane.add(TxtUlicaIBroj);
+		TxtUlicaIBroj.setColumns(10);
+		
+		ComboMesto = new JComboBox();
+		ComboMesto.setBounds(305, 79, 138, 20);
+		contentPane.add(ComboMesto);
+		
+		ComboZvanje = new JComboBox(ManipulacijaSaBazom.SpisakZvanja());
+		ComboZvanje.setBounds(305, 124, 243, 20);
+		contentPane.add(ComboZvanje);
+		
+		ComboRegion = new JComboBox(ManipulacijaSaBazom.SpisakRegiona());
+		ComboRegion.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				String NazivRegion=ComboRegion.getSelectedItem().toString();
+				int RegionID =Integer.parseInt(ManipulacijaSaBazom.VracanjeRegionID(NazivRegion));
+				
+				Vector<Mesto> SpisakMestaZaKomboBox =ManipulacijaSaBazom.SpisakNazivaMesta(RegionID);
+				ComboMesto.setModel(new DefaultComboBoxModel<>(SpisakMestaZaKomboBox));
+				
+				
+			}
+		});
+		ComboRegion.setBounds(305, 35, 138, 20);
+		contentPane.add(ComboRegion);
+		
+		JLabel lblRegion = new JLabel("Region");
+		lblRegion.setBounds(305, 21, 46, 14);
+		contentPane.add(lblRegion);
+		
+		JLabel lblNewLabel_4 = new JLabel("New label");
+		lblNewLabel_4.setIcon(new ImageIcon(Frejmb10AžuriranjeLekara.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel_4.setBounds(0, 0, 558, 405);
+		contentPane.add(lblNewLabel_4);
+	
+		// nacin za postavljanje default vrednosti za kombo box
+				PTT=lekar.getPTT();
+				JMBG=lekar.getJmbgLekar();
+				
+				RegionID=ManipulacijaSaBazom.SelektovanjeRegionID(PTT);											// ocitavanje redion id-ja na osnovu ptt-a
+				PocetniNazivRegiona=ManipulacijaSaBazom.SelektovanjeNazivaRegionaNaOsnovuID(RegionID);			 // ocitavanje naziva regiona id-ja na osnovu ptt-a
+				ComboRegion.getModel().setSelectedItem(PocetniNazivRegiona);
+				
+				
+				
+				PocetniNazivMesta=ManipulacijaSaBazom.VracanjeNazivaMestaNaOsnovuPTT(PTT); // ocitavanje naziva mesta id-ja na osnovu ptt-a
+				ComboMesto.getModel().setSelectedItem(PocetniNazivMesta);
+				
+				
+				
+				ZvanjeID=ManipulacijaSaBazom.VracanjeZvanjaIDnaOsnovuJmbg(JMBG);
+				PocetniNazivZvanja=ManipulacijaSaBazom.SelektovanjeZvanjanaOsnovuZvanjeID(ZvanjeID);
+				ComboZvanje.getModel().setSelectedItem(PocetniNazivZvanja);
+		
+				
+		TxtIme.setText(lekar.getIme());
+		TxtPrezime.setText(lekar.getPrezime());
+		TxtSifra.setText(Integer.toString(lekar.getSifra()));
+		TxtKorisnickoIme.setText(lekar.getKorisnicnoIme());
+		TxtBrojTelefona.setText(lekar.getBrojTelefona());
+		TxtUlicaIBroj.setText(lekar.getUlicaiBroj());
+		
+		
+	}
+	
+
+}

@@ -1,0 +1,154 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import entiteti.Faktura;
+import entiteti.Pacijent;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Frejm7IstorijatLecenja extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField textIme;
+	private JTextField textPrezime;
+	private JTable TebelaBolesti;
+	private JTable TabelaUsluga;
+	private String JmbgPacijent;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run(Pacijent Pacijent) {
+				try {
+					Frejm7IstorijatLecenja frame = new Frejm7IstorijatLecenja(null, null, 0, 0, 0, 0, null, null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	  
+	 * @param pregledID 
+	 * @param brojacBolest 
+	 * @param brojacUsluga 
+	 * @param jmbgLekar 
+	 * @param pacijent 
+	 * @param dodateUsluge 
+	 * @param dodateBolesti 
+	 * @param iznosFakture 
+	 */
+	public Frejm7IstorijatLecenja(Pacijent pacijent, String jmbgLekar, int brojacBolest, int brojacUsluga, int pregledID, int fakturaID, DefaultTableModel DodateBolesti, DefaultTableModel dodateUsluge) {
+		setTitle("Istorijat le\u010Denja");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 535, 364);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblIme = new JLabel("Ime");
+		lblIme.setBounds(24, 21, 46, 14);
+		contentPane.add(lblIme);
+		
+		JLabel lblPrezime = new JLabel("Prezime");
+		lblPrezime.setBounds(24, 60, 103, 14);
+		contentPane.add(lblPrezime);
+		
+		textIme = new JTextField();
+		textIme.setEditable(false);
+		textIme.setBounds(24, 35, 103, 20);
+		contentPane.add(textIme);
+		textIme.setColumns(10);
+		
+		textPrezime = new JTextField();
+		textPrezime.setEditable(false);
+		textPrezime.setBounds(24, 73, 103, 20);
+		contentPane.add(textPrezime);
+		textPrezime.setColumns(10);
+		
+		JLabel lblBolest = new JLabel("Bolest");
+		lblBolest.setBounds(24, 123, 46, 14);
+		contentPane.add(lblBolest);
+		
+		JLabel lblUsluga = new JLabel("Usluga");
+		lblUsluga.setBounds(276, 123, 46, 14);
+		contentPane.add(lblUsluga);
+		
+		JLabel lblDatumPregleda = new JLabel("Datum pregleda");
+		lblDatumPregleda.setBounds(402, 123, 95, 14);
+		contentPane.add(lblDatumPregleda);
+		
+		JButton btnNewButton = new JButton("Nazad");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(DodateBolesti + " u elektronskom kad se vraca");
+					
+				contentPane.hide();
+				Frejm6aPregled Nazad = new Frejm6aPregled(pacijent, jmbgLekar, pregledID, fakturaID, null, DodateBolesti, DodateUsluge);
+				Nazad.setVisible(true);
+			}
+		});
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.setBounds(383, 293, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		textIme.setText(pacijent.getIme());
+		textPrezime.setText(pacijent.getPrezime());
+		
+		TebelaBolesti = new JTable();
+		TebelaBolesti.setBounds(24, 148, 220, 132);
+		contentPane.add(TebelaBolesti);
+		
+		TabelaUsluga = new JTable();
+		TabelaUsluga.setBounds(243, 148, 254, 132);
+		contentPane.add(TabelaUsluga);
+		
+		JmbgPacijent=pacijent.getJmbgPacijent();
+		
+		DefaultTableModel IstorijatBolesti=ManipulacijaSaBazom.SelektovanjeBolestiZaIstorijatLecenja(JmbgPacijent);	
+		TebelaBolesti.setModel(IstorijatBolesti);
+		
+		DefaultTableModel IstorijatUsluga=ManipulacijaSaBazom.SelektovanjeUslugaZaIstorijatLecenja(JmbgPacijent);
+		TabelaUsluga.setModel(IstorijatUsluga);
+		
+		
+		JLabel label = new JLabel("Datum pregleda");
+		label.setBounds(132, 123, 95, 14);
+		contentPane.add(label);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Frejm7IstorijatLecenja.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel.setBounds(0, 0, 519, 326);
+		contentPane.add(lblNewLabel);
+		
+		System.out.println("brojac usluga koji je stigao je" + brojacUsluga);
+	}
+}

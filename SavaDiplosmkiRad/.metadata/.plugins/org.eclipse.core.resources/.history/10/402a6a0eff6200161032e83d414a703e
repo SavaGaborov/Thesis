@@ -1,0 +1,7 @@
+package entiteti;
+
+public class Region {
+
+	public int RegionID;
+	public String NazivRegiona;
+}

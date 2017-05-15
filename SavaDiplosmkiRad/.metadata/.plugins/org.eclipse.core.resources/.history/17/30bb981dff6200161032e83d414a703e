@@ -1,0 +1,29 @@
+package entiteti;
+
+public class Mesto {
+
+	public int PTT;
+	public String NazivMesta;
+		
+	public String toString()
+	{
+		return NazivMesta;
+	}
+	
+	
+	
+	public int getPTT() {
+		return PTT;
+	}
+	public void setPTT(int pTT) {
+		PTT = pTT;
+	}
+	public String getNazivMesta() {
+		return NazivMesta;
+	}
+	public void setNazivMesta(String nazivMesta) {
+		NazivMesta = nazivMesta;
+	}
+	
+	
+}

@@ -1,0 +1,198 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import entiteti.Faktura;
+import entiteti.Pacijent;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Frejmb15IzdavanjeFakture extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField TxtIme;
+	private JTextField TxtPrezime;
+	private JTextField TxtUlicaIbroj;
+	public JTextField IzdavaocFakture;
+	private JTextField TxtJmbg;
+	private JTextField TxtMesto;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejmb15IzdavanjeFakture frame = new Frejmb15IzdavanjeFakture(null, null, 0, 0, 0, 0, null, null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param ukupanIznos 
+	 * @param pregledID 
+	 * @param brojacBolest 
+	 * @param brojacUsluga 
+	 * @param jmbgLekar 
+	 * @param pacijent 
+	 * @param dodateBolesti 
+	 * @param dodateUsluge 
+	 * @param iznosFakture 
+	 */
+	public Frejmb15IzdavanjeFakture(Pacijent pacijent, String jmbgLekar, int brojacBolest, int brojacUsluga, int pregledID, int fakturaID, DefaultTableModel dodateBolesti, DefaultTableModel dodateUsluge) {
+		setTitle("Izdavanje fakture");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 497, 361);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblIme = new JLabel("Ime");
+		lblIme.setForeground(Color.BLACK);
+		lblIme.setBounds(21, 33, 46, 14);
+		contentPane.add(lblIme);
+		
+		JLabel lblPrezime = new JLabel("Prezime");
+		lblPrezime.setForeground(Color.BLACK);
+		lblPrezime.setBounds(21, 75, 70, 14);
+		contentPane.add(lblPrezime);
+		
+		TxtIme = new JTextField();
+		TxtIme.setEditable(false);
+		TxtIme.setBounds(87, 30, 100, 20);
+		contentPane.add(TxtIme);
+		TxtIme.setColumns(10);
+		
+		TxtPrezime = new JTextField();
+		TxtPrezime.setEditable(false);
+		TxtPrezime.setBounds(87, 72, 100, 20);
+		contentPane.add(TxtPrezime);
+		TxtPrezime.setColumns(10);
+		
+		JLabel lblmesto = new JLabel("Mesto");
+		lblmesto.setForeground(Color.BLACK);
+		lblmesto.setBounds(21, 157, 100, 14);
+		contentPane.add(lblmesto);
+		
+		TxtUlicaIbroj = new JTextField();
+		TxtUlicaIbroj.setEditable(false);
+		TxtUlicaIbroj.setBounds(87, 197, 124, 20);
+		contentPane.add(TxtUlicaIbroj);
+		TxtUlicaIbroj.setColumns(10);
+		
+		JLabel lblUstanovaKojaIzdaje = new JLabel("Ustanova koja izdaje fakturu");
+		lblUstanovaKojaIzdaje.setForeground(Color.BLACK);
+		lblUstanovaKojaIzdaje.setBounds(250, 33, 190, 14);
+		contentPane.add(lblUstanovaKojaIzdaje);
+		
+		
+		JButton btnNewButton = new JButton("Nazad");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm6aPregled Nazad = new Frejm6aPregled(pacijent, jmbgLekar, pregledID, fakturaID, null, null, dodateBolesti, DodateUsluge);
+				Nazad.setVisible(true);
+			}
+
+			
+
+			
+		});
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(0, 0, 0));
+		btnNewButton.setBounds(21, 276, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("\u0160tampaj fakturu");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+
+				contentPane.hide();
+				Frejmb15StampanjeFakture StampanjeFakture = new Frejmb15StampanjeFakture(pacijent, jmbgLekar, brojacUsluga, brojacBolest, pregledID, fakturaID);
+				StampanjeFakture.setVisible(true);
+				
+				
+				
+			}
+		});
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(0, 0, 0));
+		btnNewButton_1.setBounds(250, 276, 206, 23);
+		contentPane.add(btnNewButton_1);
+		
+		IzdavaocFakture = new JTextField();
+		IzdavaocFakture.setEditable(false);
+		IzdavaocFakture.setBounds(249, 58, 207, 20);
+		contentPane.add(IzdavaocFakture);
+		IzdavaocFakture.setColumns(10);
+		
+		final String UstanovaKojaIzdaje;
+		
+		UstanovaKojaIzdaje=("Privatna bolnica "  + "''Sveti Jovan''");
+	
+		IzdavaocFakture.setText(UstanovaKojaIzdaje);
+		
+		
+		
+		JLabel lblJmbg = new JLabel("Jmbg");
+		lblJmbg.setForeground(Color.BLACK);
+		lblJmbg.setBounds(21, 117, 46, 14);
+		contentPane.add(lblJmbg);
+		
+		JLabel lblAdresa = new JLabel("Ulica i broj");
+		lblAdresa.setForeground(Color.BLACK);
+		lblAdresa.setBounds(21, 200, 100, 14);
+		contentPane.add(lblAdresa);
+		
+		TxtJmbg = new JTextField();
+		TxtJmbg.setEditable(false);
+		TxtJmbg.setBounds(87, 114, 124, 20);
+		contentPane.add(TxtJmbg);
+		TxtJmbg.setColumns(10);
+		
+		TxtMesto = new JTextField();
+		TxtMesto.setEditable(false);
+		TxtMesto.setBounds(87, 154, 124, 20);
+		contentPane.add(TxtMesto);
+		TxtMesto.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon(Frejmb15IzdavanjeFakture.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel_1.setBounds(0, 0, 483, 330);
+		contentPane.add(lblNewLabel_1);
+		
+		TxtIme.setText(pacijent.getIme());
+		TxtPrezime.setText(pacijent.getPrezime());
+		TxtUlicaIbroj.setText(pacijent.getUlicaiBroj());
+		TxtJmbg.setText(pacijent.getJmbgPacijent());
+		//txtIznosFakture.setText(String.valueOf(iznosFakture));
+		
+		int PTT=pacijent.getPTT();
+		String NazivMesta=ManipulacijaSaBazom.VracanjeNazivaMestaNaOsnovuPTT(PTT);
+		TxtMesto.setText(NazivMesta);
+		
+	}
+}

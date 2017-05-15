@@ -1,0 +1,237 @@
+package frejmovi;
+
+import java.sql.Date;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.xml.bind.ParseConversionEvent;
+
+import entiteti.Mesto;
+import entiteti.Pacijent;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import java.awt.Panel;
+
+public class Frejm3DodavanjePacijenta extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField brtel;
+	private JTextField ulicaibr;
+	private JTextField jmbg;
+	private JTextField ime;
+	private JTextField imeoca;
+	private JTextField prezime;
+	private JTextField datrodj;
+	private JComboBox mesto;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejm3DodavanjePacijenta frame = new Frejm3DodavanjePacijenta();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Frejm3DodavanjePacijenta() {
+		setTitle("Dodavanje pacijenta");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 646, 402);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("Broj telefona");
+		lblNewLabel_5.setForeground(Color.BLACK);
+		lblNewLabel_5.setBounds(323, 159, 86, 14);
+		contentPane.add(lblNewLabel_5);
+		
+		brtel = new JTextField();
+		brtel.setBounds(403, 159, 119, 20);
+		contentPane.add(brtel);
+		brtel.setColumns(10);
+		
+		JButton btnUnesitePacijenta = new JButton("Unesite pacijenta");
+		btnUnesitePacijenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ManipulacijaSaBazom msbp = new ManipulacijaSaBazom();
+				
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				
+				
+				int JmbgPacijent=Integer.parseInt(jmbg.getText());
+				String ImeOca=imeoca.getText();
+				String Ime=ime.getText();
+				String Prezime=prezime.getText();
+				
+				//parsiranje datum iz java util u my sql date
+				java.util.Date DatumRodjenja = null;
+				Date datum=null;
+					try{DatumRodjenja=df.parse(datrodj.getText());
+						datum = new Date (DatumRodjenja.getTime());
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				
+				
+				String BrojTelefona= brtel.getText();
+				String UlicaIBroj= ulicaibr.getText();				
+				
+				String NazivMesta=mesto.getSelectedItem().toString();
+				int PTT=Integer.parseInt(msbp.UzimanjeIDnaOsnovuNazivaMesta(NazivMesta));
+				
+				// posto se deklarise i promenljvia u klasi kao foreign key ubacuje se u pacijenta 
+				// a ne u mesto i onda mi treba samo jedan parametar 
+				Pacijent pacijent = new Pacijent();
+				
+				pacijent.setJmbgPacijent(JmbgPacijent);
+				pacijent.setPTT(PTT);
+				pacijent.setImeOca(ImeOca);
+				pacijent.setIme(Ime);
+				pacijent.setPrezime(Prezime);
+				pacijent.setDatumRodjenja((java.sql.Date) datum);
+				pacijent.setBrojTelefona(BrojTelefona);
+				pacijent.setUlicaiBroj(UlicaIBroj);
+				
+				
+				boolean Dodavanje=msbp.UnosPacijenta(pacijent);
+				
+				if (Dodavanje){
+					JOptionPane.showMessageDialog(null, "Uspesno ste uneli pacijenta");
+				}else{
+					JOptionPane.showMessageDialog(null, "Greska prilikom unosa pacijenta");
+				}
+			}
+		});
+		btnUnesitePacijenta.setBackground(Color.BLACK);
+		btnUnesitePacijenta.setForeground(Color.WHITE);
+		btnUnesitePacijenta.setBounds(403, 265, 146, 32);
+		contentPane.add(btnUnesitePacijenta);
+		
+		JButton btnNazad = new JButton("Nazad");
+		btnNazad.setBackground(Color.BLACK);
+		btnNazad.setForeground(Color.WHITE);
+		btnNazad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm2GlavniMeni Nazad = new Frejm2GlavniMeni();
+				Nazad.setVisible(true);
+			}
+		});
+		btnNazad.setBounds(403, 216, 146, 32);
+		contentPane.add(btnNazad);
+		
+		JLabel lblNazivMesta = new JLabel("PTT");
+		lblNazivMesta.setForeground(Color.BLACK);
+		lblNazivMesta.setBounds(323, 31, 73, 14);
+		contentPane.add(lblNazivMesta);
+		
+		JLabel lblUlicaIBroj = new JLabel("Ulica i broj");
+		lblUlicaIBroj.setForeground(Color.BLACK);
+		lblUlicaIBroj.setBounds(323, 95, 107, 14);
+		contentPane.add(lblUlicaIBroj);
+		
+		ulicaibr = new JTextField();
+		ulicaibr.setBounds(403, 92, 199, 20);
+		contentPane.add(ulicaibr);
+		ulicaibr.setColumns(10);
+		
+		mesto = new JComboBox(ManipulacijaSaBazom.SpisakNazivaMesta());
+		mesto.setBounds(403, 28, 127, 20);
+		contentPane.add(mesto);
+		
+		Panel panel = new Panel();
+		panel.setForeground(Color.BLACK);
+		panel.setBounds(21, 20, 281, 320);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel label = new JLabel("Jmbg");
+		label.setForeground(Color.BLACK);
+		label.setBounds(51, 14, 46, 14);
+		panel.add(label);
+		
+		jmbg = new JTextField();
+		jmbg.setColumns(10);
+		jmbg.setBounds(146, 11, 119, 20);
+		panel.add(jmbg);
+		
+		JLabel label_1 = new JLabel("Ime");
+		label_1.setForeground(Color.BLACK);
+		label_1.setBounds(51, 78, 46, 14);
+		panel.add(label_1);
+		
+		ime = new JTextField();
+		ime.setColumns(10);
+		ime.setBounds(146, 75, 119, 20);
+		panel.add(ime);
+		
+		JLabel label_2 = new JLabel("Ime oca");
+		label_2.setForeground(Color.BLACK);
+		label_2.setBounds(51, 142, 46, 14);
+		panel.add(label_2);
+		
+		imeoca = new JTextField();
+		imeoca.setColumns(10);
+		imeoca.setBounds(146, 139, 119, 20);
+		panel.add(imeoca);
+		
+		JLabel label_3 = new JLabel("Prezime");
+		label_3.setForeground(Color.BLACK);
+		label_3.setBackground(new Color(255, 255, 51));
+		label_3.setBounds(51, 201, 73, 14);
+		panel.add(label_3);
+		
+		prezime = new JTextField();
+		prezime.setColumns(10);
+		prezime.setBounds(146, 198, 119, 20);
+		panel.add(prezime);
+		
+		JLabel label_4 = new JLabel("Datum rodjenja");
+		label_4.setForeground(Color.BLACK);
+		label_4.setBounds(51, 266, 86, 14);
+		panel.add(label_4);
+		
+		datrodj = new JTextField();
+		datrodj.setColumns(10);
+		datrodj.setBounds(146, 263, 119, 20);
+		panel.add(datrodj);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Frejm3DodavanjePacijenta.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel.setBounds(0, 0, 281, 320);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon(Frejm3DodavanjePacijenta.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel_1.setBounds(0, 0, 630, 364);
+		contentPane.add(lblNewLabel_1);
+	}
+}

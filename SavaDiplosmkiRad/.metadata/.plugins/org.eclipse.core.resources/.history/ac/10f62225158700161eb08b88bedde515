@@ -1,0 +1,195 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.SystemColor;
+
+public class Frejm18Izvestaji extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejm18Izvestaji frame = new Frejm18Izvestaji(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param jmbgLekar 
+	 */
+	public Frejm18Izvestaji(String jmbgLekar) {
+		setTitle("Izve\u0161taji");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 516, 493);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNazad = new JButton("Nazad");
+		btnNazad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm2GlavniMeni Nazad = new Frejm2GlavniMeni(jmbgLekar);
+				Nazad.setVisible(true);
+			}
+		});
+		btnNazad.setForeground(Color.WHITE);
+		btnNazad.setBackground(Color.BLACK);
+		btnNazad.setBounds(170, 421, 168, 23);
+		contentPane.add(btnNazad);
+		
+		JButton btnBrojObavljenihPregleda = new JButton("Broj obavljenih pregleda");
+		btnBrojObavljenihPregleda.setBackground(new Color(30, 144, 255));
+		btnBrojObavljenihPregleda.setForeground(new Color(255, 255, 255));
+		btnBrojObavljenihPregleda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm18aBrojObavljenihPregleda BrObavljenihPregleda = new Frejm18aBrojObavljenihPregleda(jmbgLekar);
+				BrObavljenihPregleda.setVisible(true);
+			}
+		});
+		btnBrojObavljenihPregleda.setBounds(99, 25, 302, 23);
+		contentPane.add(btnBrojObavljenihPregleda);
+		
+		JButton btnBrojPacijenata = new JButton("Ukupan broj pacijenata");
+		btnBrojPacijenata.setForeground(new Color(255, 255, 255));
+		btnBrojPacijenata.setBackground(new Color(30, 144, 255));
+		btnBrojPacijenata.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm19bUkupanBrojPacijenataPrikaz BrojPacijenata = new Frejm19bUkupanBrojPacijenataPrikaz(jmbgLekar);
+				BrojPacijenata.setVisible(true);
+			}
+		});
+		btnBrojPacijenata.setBounds(99, 65, 303, 23);
+		contentPane.add(btnBrojPacijenata);
+		
+		JButton btnNewButton = new JButton("Promet za interval");
+		btnNewButton.setBackground(new Color(30, 144, 255));
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm20PrometUsluga PrometUsluga = new Frejm20PrometUsluga(jmbgLekar);
+				PrometUsluga.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(99, 105, 302, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnBrojIzdatihRecepata = new JButton("Broj izdatih recepata  uputa i faktura");
+		btnBrojIzdatihRecepata.setBackground(new Color(30, 144, 255));
+		btnBrojIzdatihRecepata.setForeground(new Color(255, 255, 255));
+		btnBrojIzdatihRecepata.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm21BrojIzdatihRecepataUputaFaktura IzdatiReceptiUputiFakture = new Frejm21BrojIzdatihRecepataUputaFaktura(jmbgLekar);
+				IzdatiReceptiUputiFakture.setVisible(true);
+			}
+		});
+		btnBrojIzdatihRecepata.setBounds(99, 145, 302, 23);
+		contentPane.add(btnBrojIzdatihRecepata);
+		
+		JButton btnProseanIznosFakture = new JButton("Prose\u010Dan iznos fakture za interval");
+		btnProseanIznosFakture.setForeground(new Color(255, 255, 255));
+		btnProseanIznosFakture.setBackground(new Color(30, 144, 255));
+		btnProseanIznosFakture.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm22ProsecanIznosFakture ProsecanIznosFakture = new Frejm22ProsecanIznosFakture(jmbgLekar);
+				ProsecanIznosFakture.setVisible(true);
+			}
+		});
+		btnProseanIznosFakture.setBounds(99, 185, 302, 23);
+		contentPane.add(btnProseanIznosFakture);
+		
+		JButton btnNewButton_1 = new JButton("Najskuplje obavljene usluge");
+		btnNewButton_1.setBackground(new Color(30, 144, 255));
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm23NajskupljeObavljenaUsluga ProsecanIznosFakture = new Frejm23NajskupljeObavljenaUsluga(jmbgLekar);
+				ProsecanIznosFakture.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(99, 225, 302, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Naj\u010De\u0161\u0107a oboljenja");
+		btnNewButton_2.setBackground(new Color(30, 144, 255));
+		btnNewButton_2.setForeground(new Color(255, 255, 255));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm24NajcescaOboljenja NajcescaOboljenja = new Frejm24NajcescaOboljenja(jmbgLekar);
+				NajcescaOboljenja.setVisible(true);
+			}
+		});
+		btnNewButton_2.setBounds(99, 265, 302, 23);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnLekariSaNajvie = new JButton("Lekari sa najvi\u0161e obavljenih pregleda");
+		btnLekariSaNajvie.setForeground(new Color(255, 255, 255));
+		btnLekariSaNajvie.setBackground(new Color(30, 144, 255));
+		btnLekariSaNajvie.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm25LekarSaNajviseObavljenihPregleda NajcescaOboljenja = new Frejm25LekarSaNajviseObavljenihPregleda(jmbgLekar);
+				NajcescaOboljenja.setVisible(true);
+			}
+		});
+		btnLekariSaNajvie.setBounds(99, 305, 302, 23);
+		contentPane.add(btnLekariSaNajvie);
+		
+		JButton btnNewButton_3 = new JButton("Naj\u010De\u0161\u0107e prepisani lekovi");
+		btnNewButton_3.setBackground(new Color(30, 144, 255));
+		btnNewButton_3.setForeground(new Color(255, 255, 255));
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm26NajcescePrepisaniLekovi NajcescePrepisaniLekovi = new Frejm26NajcescePrepisaniLekovi(jmbgLekar);
+				NajcescePrepisaniLekovi.setVisible(true);
+			}
+		});
+		btnNewButton_3.setBounds(99, 345, 302, 23);
+		contentPane.add(btnNewButton_3);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Frejm18Izvestaji.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel.setBounds(0, 0, 500, 455);
+		contentPane.add(lblNewLabel);
+	}
+}

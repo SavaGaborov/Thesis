@@ -1,0 +1,208 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JTextField;
+
+public class Frejm2GlavniMeni extends JFrame {
+
+	public static Frejm2GlavniMeni frameGlavniMeni;
+	public JPanel contentPane;
+	private JLabel LblImePrezime;
+	
+	
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frameGlavniMeni = new Frejm2GlavniMeni(null);
+					frameGlavniMeni.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param jmbgLekar 
+	 * @param jmbgLekar2 
+	 */
+	public Frejm2GlavniMeni(String jmbgLekar) {
+		setTitle("Glavni meni");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 654, 369);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnRegistracijaLekara = new JButton("Unos lekara");
+		btnRegistracijaLekara.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm8DodavanjeLekara Dodavanje = new Frejm8DodavanjeLekara(jmbgLekar);
+				Dodavanje.setVisible(true);
+			}
+		});
+		btnRegistracijaLekara.setForeground(Color.WHITE);
+		btnRegistracijaLekara.setBackground(new Color(0, 102, 204));
+		btnRegistracijaLekara.setBounds(10, 177, 184, 36);
+		contentPane.add(btnRegistracijaLekara);
+		
+		JButton btnAuriranjeLekara = new JButton("A\u017Euriranje lekara");
+		btnAuriranjeLekara.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejm9AžuriranjeLekara Azuriranje = new Frejm9AžuriranjeLekara(jmbgLekar);
+				Azuriranje.setVisible(true);
+			}
+		});
+		btnAuriranjeLekara.setForeground(Color.WHITE);
+		btnAuriranjeLekara.setBackground(new Color(0, 102, 204));
+		btnAuriranjeLekara.setBounds(215, 177, 184, 36);
+		contentPane.add(btnAuriranjeLekara);
+		
+		JButton btnNewButton = new JButton("Unos pacijenta");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(new Color(0, 102, 204));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+								
+				dispose();
+				Frejm3DodavanjePacijenta DodavanjePacijenta = new Frejm3DodavanjePacijenta(jmbgLekar);
+				DodavanjePacijenta.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(10, 105, 184, 36);
+		contentPane.add(btnNewButton);
+		
+		JButton btnAuriranjePacijenta = new JButton("A\u017Euriranje pacijenta");
+		btnAuriranjePacijenta.setForeground(Color.WHITE);
+		btnAuriranjePacijenta.setBackground(new Color(0, 102, 204));
+		btnAuriranjePacijenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				dispose();
+				Frejm4AžuriranjePacijenta Azuriranje = new Frejm4AžuriranjePacijenta(jmbgLekar);
+				Azuriranje.setVisible(true);
+				
+			}
+		});
+		btnAuriranjePacijenta.setBounds(215, 105, 184, 36);
+		contentPane.add(btnAuriranjePacijenta);
+		
+		JButton btnElektronskiKartonPacijenta = new JButton("Pregled");
+		btnElektronskiKartonPacijenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				dispose();
+				Frejm6PregledOdabirPacijenta Pregled = new Frejm6PregledOdabirPacijenta(jmbgLekar);
+				Pregled.setVisible(true);
+				
+			}
+		});
+		btnElektronskiKartonPacijenta.setForeground(Color.WHITE);
+		btnElektronskiKartonPacijenta.setBackground(new Color(0, 102, 204));
+		btnElektronskiKartonPacijenta.setBounds(423, 105, 206, 36);
+		contentPane.add(btnElektronskiKartonPacijenta);
+		
+		JButton btnDodavanjeLeka = new JButton("Unos leka");
+		btnDodavanjeLeka.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				Frejmb11DodavanjeLeka DodavanjeLeka = new Frejmb11DodavanjeLeka(jmbgLekar);
+				DodavanjeLeka.setVisible(true);
+			}
+		});
+		btnDodavanjeLeka.setBackground(new Color(0, 102, 204));
+		btnDodavanjeLeka.setForeground(Color.WHITE);
+		btnDodavanjeLeka.setBounds(10, 249, 184, 36);
+		contentPane.add(btnDodavanjeLeka);
+		
+		JButton btnAuriranjeLeka = new JButton("A\u017Euriranje leka");
+		btnAuriranjeLeka.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				contentPane.hide();
+				Frejmb12AžuriranjeLeka AzuriranjeLeka = new Frejmb12AžuriranjeLeka(jmbgLekar);
+				AzuriranjeLeka.setVisible(true);
+			}
+		});
+		btnAuriranjeLeka.setForeground(Color.WHITE);
+		btnAuriranjeLeka.setBackground(new Color(0, 102, 204));
+		btnAuriranjeLeka.setBounds(215, 249, 184, 36);
+		contentPane.add(btnAuriranjeLeka);
+		
+		JButton btnNewButton_1 = new JButton("Nazad");
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.BLACK);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm1Logovanje Nazad = new Frejm1Logovanje();
+				Nazad.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(427, 249, 202, 36);
+		contentPane.add(btnNewButton_1);
+		
+		JLabel lblMolimoVasOdaberite = new JLabel("Molimo Vas odaberite \u017Eeljenu funkcionalnost");
+		lblMolimoVasOdaberite.setBounds(193, 57, 285, 14);
+		contentPane.add(lblMolimoVasOdaberite);
+		
+		JButton btnIzvetaji = new JButton("Izve\u0161taji");
+		btnIzvetaji.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm18Izvestaji Izvestaji = new Frejm18Izvestaji(jmbgLekar);
+				Izvestaji.setVisible(true);
+			}
+		});
+		btnIzvetaji.setForeground(Color.WHITE);
+		btnIzvetaji.setBackground(new Color(0, 102, 204));
+		btnIzvetaji.setBounds(423, 177, 206, 36);
+		contentPane.add(btnIzvetaji);
+		
+		JLabel lblNewLabel_2 = new JLabel("Dobrodo\u0161li");
+		lblNewLabel_2.setBounds(27, 11, 106, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		LblImePrezime = new JLabel("");
+		LblImePrezime.setText(ManipulacijaSaBazom.SelektovanjeImenaILekara(jmbgLekar) + " " + ManipulacijaSaBazom.SelektovanjePrezimenaILekara(jmbgLekar));
+		LblImePrezime.setBounds(27, 36, 149, 14);
+		contentPane.add(LblImePrezime);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Frejm2GlavniMeni.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel.setBounds(0, 0, 638, 331);
+		contentPane.add(lblNewLabel);
+	}
+}

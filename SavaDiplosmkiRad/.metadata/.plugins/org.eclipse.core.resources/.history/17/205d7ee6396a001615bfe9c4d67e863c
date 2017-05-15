@@ -1,0 +1,200 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import javax.swing.JTable;
+
+public class Frejm6aPregled extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField txtIzleivo;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTable table;
+	private JTable table_1;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejm6aPregled frame = new Frejm6aPregled();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Frejm6aPregled() {
+		setTitle("Pregled");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 542, 446);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblIme = new JLabel("Ime");
+		lblIme.setForeground(Color.BLACK);
+		lblIme.setBounds(22, 26, 46, 14);
+		contentPane.add(lblIme);
+		
+		JLabel lblPrezime = new JLabel("Prezime");
+		lblPrezime.setForeground(Color.BLACK);
+		lblPrezime.setBounds(22, 84, 112, 14);
+		contentPane.add(lblPrezime);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(358, 109, 137, 20);
+		contentPane.add(comboBox);
+		
+		JLabel lblBolest = new JLabel("Bolest");
+		lblBolest.setForeground(Color.BLACK);
+		lblBolest.setBounds(358, 84, 46, 14);
+		contentPane.add(lblBolest);
+		
+		txtIzleivo = new JTextField();
+		txtIzleivo.setEditable(false);
+		txtIzleivo.setText("Izle\u010Divo");
+		txtIzleivo.setBounds(22, 343, 137, 20);
+		contentPane.add(txtIzleivo);
+		txtIzleivo.setColumns(10);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(358, 53, 137, 20);
+		contentPane.add(comboBox_1);
+		
+		JLabel lblUsluga = new JLabel("Usluga");
+		lblUsluga.setForeground(Color.BLACK);
+		lblUsluga.setBounds(358, 26, 46, 14);
+		contentPane.add(lblUsluga);
+		
+		JButton btnIzdavanjeUputa = new JButton("Izdavanje uputa");
+		btnIzdavanjeUputa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejmb16IzdavanjeUputa Uput = new Frejmb16IzdavanjeUputa();
+				Uput.setVisible(true);
+			}
+		});
+		btnIzdavanjeUputa.setForeground(Color.WHITE);
+		btnIzdavanjeUputa.setBackground(Color.BLACK);
+		btnIzdavanjeUputa.setBounds(24, 374, 137, 23);
+		contentPane.add(btnIzdavanjeUputa);
+		
+		JButton btnIzdavanjeRecepta = new JButton("Izdavanje recepta");
+		btnIzdavanjeRecepta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				contentPane.hide();
+				Frejm17IzdavanjeRecepta Recept = new Frejm17IzdavanjeRecepta();
+				Recept.setVisible(true);
+			}
+		});
+		btnIzdavanjeRecepta.setForeground(Color.WHITE);
+		btnIzdavanjeRecepta.setBackground(Color.BLACK);
+		btnIzdavanjeRecepta.setBounds(227, 374, 137, 23);
+		contentPane.add(btnIzdavanjeRecepta);
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setBounds(24, 53, 137, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setBounds(22, 109, 137, 20);
+		contentPane.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Dalje");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				contentPane.hide();
+				Frejmb15IzdavanjeFakture Faktura = new Frejmb15IzdavanjeFakture();
+				Faktura.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(406, 340, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Nazad");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				contentPane.hide();
+				Frejm6PregledOdabirPacijenta Nazad = new Frejm6PregledOdabirPacijenta();
+				Nazad.setVisible(true);
+				
+			}
+		});
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.BLACK);
+		btnNewButton_1.setBounds(406, 374, 89, 23);
+		contentPane.add(btnNewButton_1);
+		
+		table = new JTable();
+		table.setBounds(39, 300, 397, -109);
+		contentPane.add(table);
+		
+		table_1 = new JTable();
+		table_1.setBounds(22, 199, 473, 116);
+		contentPane.add(table_1);
+		
+		JLabel lblRbr = new JLabel("Rbr.");
+		lblRbr.setBounds(22, 177, 46, 14);
+		contentPane.add(lblRbr);
+		
+		JLabel lblBolest_1 = new JLabel("Bolest");
+		lblBolest_1.setBounds(88, 177, 46, 14);
+		contentPane.add(lblBolest_1);
+		
+		JLabel lblUsluga_1 = new JLabel("Usluga");
+		lblUsluga_1.setBounds(202, 177, 46, 14);
+		contentPane.add(lblUsluga_1);
+		
+		JLabel lblIznos = new JLabel("Iznos");
+		lblIznos.setBounds(318, 177, 46, 14);
+		contentPane.add(lblIznos);
+		
+		JLabel lblUkupno = new JLabel("Ukupno");
+		lblUkupno.setBounds(449, 177, 46, 14);
+		contentPane.add(lblUkupno);
+		
+		JButton btnNewButton_2 = new JButton("Dodaj");
+		btnNewButton_2.setBackground(Color.BLACK);
+		btnNewButton_2.setForeground(Color.WHITE);
+		btnNewButton_2.setBounds(358, 143, 137, 23);
+		contentPane.add(btnNewButton_2);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Frejm6aPregled.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel.setBounds(0, 1, 526, 407);
+		contentPane.add(lblNewLabel);
+	}
+}

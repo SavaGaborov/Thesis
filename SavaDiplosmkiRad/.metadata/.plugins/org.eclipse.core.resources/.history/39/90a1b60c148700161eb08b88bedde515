@@ -1,0 +1,154 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import entiteti.Lek;
+import entiteti.Proizvodjac;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+
+public class Frejmb11DodavanjeLeka extends JFrame {
+
+	public JPanel contentPane;
+	private JTextField TxtNazivLeka;
+	private JTextField TxtJacina;
+	private JComboBox ComboBoxProizvodjac;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejmb11DodavanjeLeka frame = new Frejmb11DodavanjeLeka(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param jmbgLekar 
+	 */
+	public Frejmb11DodavanjeLeka(String jmbgLekar) {
+		setTitle("Unos leka");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 362, 381);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNazivLeka = new JLabel("Naziv leka");
+		lblNazivLeka.setForeground(Color.BLACK);
+		lblNazivLeka.setBounds(137, 21, 80, 14);
+		contentPane.add(lblNazivLeka);
+		
+		TxtNazivLeka = new JTextField();
+		TxtNazivLeka.setBounds(91, 46, 142, 20);
+		contentPane.add(TxtNazivLeka);
+		TxtNazivLeka.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Proizvo\u0111a\u010D");
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setBounds(137, 135, 80, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Ja\u010Dina");
+		lblNewLabel_1.setForeground(Color.BLACK);
+		lblNewLabel_1.setBounds(145, 77, 46, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		TxtJacina = new JTextField();
+		TxtJacina.setBounds(91, 102, 142, 20);
+		contentPane.add(TxtJacina);
+		TxtJacina.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Unesite lek");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ManipulacijaSaBazom mnbp = new ManipulacijaSaBazom();
+		
+				String NazivLeka = TxtNazivLeka.getText();
+				String Jacina= TxtJacina.getText();
+				String NazivProizvodjaca= ComboBoxProizvodjac.getSelectedItem().toString();
+				
+				int ProizvodjacID=Integer.parseInt(ManipulacijaSaBazom.SelektovanjeProizvodjacIDnaOsnovuImenaProizvodjaca(NazivProizvodjaca));
+				
+				
+				
+				Lek lek = new Lek();	
+				
+				try {
+				
+				lek.setNazivLeka(NazivLeka);
+				lek.setJacina(Jacina);
+				lek.setProizvodjacID(ProizvodjacID);
+		
+				boolean Unos=mnbp.UnosLeka(lek);
+				
+				if (Unos){
+					JOptionPane.showMessageDialog(null, "Uspešno ste uneli lek");
+					dispose();
+					Frejm2GlavniMeni Dodat = new Frejm2GlavniMeni(jmbgLekar);
+					Dodat.setVisible(true);
+				}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Greška prilikom unosa molimo Vas ponovo unesite podatke", "Greška", JOptionPane.ERROR_MESSAGE);
+
+				}
+				
+			}
+		});
+		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBounds(107, 253, 116, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Nazad");
+		btnNewButton_1.setBackground(Color.BLACK);
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				contentPane.hide();
+				Frejm2GlavniMeni Nazad = new Frejm2GlavniMeni(jmbgLekar);
+				Nazad.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(107, 287, 116, 20);
+		contentPane.add(btnNewButton_1);
+		
+		ComboBoxProizvodjac = new JComboBox(ManipulacijaSaBazom.SpisakProizvodjaca());
+		ComboBoxProizvodjac.setBounds(91, 161, 142, 20);
+		contentPane.add(ComboBoxProizvodjac);
+		
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		lblNewLabel_2.setIcon(new ImageIcon(Frejmb11DodavanjeLeka.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel_2.setBounds(0, 0, 346, 343);
+		contentPane.add(lblNewLabel_2);
+		
+		
+	}
+	
+
+}

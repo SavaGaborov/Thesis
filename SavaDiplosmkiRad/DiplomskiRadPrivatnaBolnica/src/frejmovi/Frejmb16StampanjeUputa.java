@@ -1,0 +1,250 @@
+package frejmovi;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import entiteti.Pacijent;
+import entiteti.Uput;
+import metode.ManipulacijaSaBazom;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.JToolBar;
+
+public class Frejmb16StampanjeUputa extends JFrame {
+
+	private JPanel contentPane;
+	private JLabel lblNazivGdeSeSalje;
+	private int SifraUstanoveGdeSeSalje;
+	private JLabel lblSifraZdrUstanove;
+	private JLabel lblIme;
+	private JLabel lblPrezime;
+	private JLabel lblImeoca;
+	private JLabel lblJmbgpacijenta;
+	private JLabel lblAdresa;
+	private JLabel lblBrojzdravstveneknjizice;
+	private JLabel lblBrojtelefona;
+	private JLabel lblImelekara;
+	private JLabel lblPrezimelekara;
+	private String ImeLekara;
+	private String PrezimeLekara;
+	private JLabel lblJmbgLekara;
+	private JLabel LblZvanjeLekara;
+	private JLabel lblBolest;
+	private JLabel lblBrojtelefonalekara;
+	private JLabel lblTrenutnidatum;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Frejmb16StampanjeUputa frame = new Frejmb16StampanjeUputa(null, null, 0, 0, 0, 0, null, null, null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 * @param  
+	 * @param fakturaID 
+	 * @param pregledID 
+	 * @param brojacBolest 
+	 * @param brojacUsluga 
+	 * @param jmbgLekar 
+	 * @param pacijent 
+	 * @param dodateUsluge 
+	 * @param dodateBolesti 
+	 * @param nazivUstanoveKojaIzdajeUput 
+	 */
+	public Frejmb16StampanjeUputa(Pacijent pacijent, String jmbgLekar, int brojacUsluga, int brojacBolest, int pregledID, int fakturaID, String NazivUstanoveZaKojuSeIzdajeUput, DefaultTableModel dodateBolesti, DefaultTableModel dodateUsluge) {
+		setTitle("\u0160tampanje i evidentiranje uputa");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 643, 604);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("nazad");
+		btnNewButton.setBackground(Color.BLACK);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				dispose();																											//dodate bolesti,dodate usluge
+				Frejmb16IzdavanjeUputa nazad = new Frejmb16IzdavanjeUputa(pacijent, jmbgLekar, brojacUsluga, brojacBolest, pregledID, fakturaID, dodateBolesti, dodateUsluge);
+				nazad.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(28, 532, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("\u0160tampaj i evidentiraj uput");
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.BLACK);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			
+				ManipulacijaSaBazom msbp = new ManipulacijaSaBazom();
+								
+				Uput uput = new Uput();
+				
+				uput.setZdravstvenaUstanovaID(SifraUstanoveGdeSeSalje);
+				uput.setPregledID(pregledID);
+				
+				
+				boolean EvidentiranjeUputa=msbp.EvidentiranjeUputa(uput);
+				
+				if(EvidentiranjeUputa)
+				
+				
+				dispose();
+				Frejm6aPregled Nazad = new Frejm6aPregled(pacijent, jmbgLekar, pregledID, fakturaID, null, dodateBolesti, dodateUsluge);
+				Nazad.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(402, 532, 179, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JLabel lblZdravstveneUstanove = new JLabel("101165426");
+		lblZdravstveneUstanove.setBounds(200, 133, 104, 14);
+		contentPane.add(lblZdravstveneUstanove);
+		
+		lblNazivGdeSeSalje = new JLabel("");
+		lblNazivGdeSeSalje.setBounds(294, 98, 287, 14);
+		contentPane.add(lblNazivGdeSeSalje);
+		
+		lblSifraZdrUstanove = new JLabel("");
+		lblSifraZdrUstanove.setBounds(473, 242, 97, 14);
+		contentPane.add(lblSifraZdrUstanove);
+		
+		lblIme = new JLabel("");
+		lblIme.setBounds(142, 180, 114, 14);
+		contentPane.add(lblIme);
+		
+		lblPrezime = new JLabel("");
+		lblPrezime.setBounds(243, 180, 104, 14);
+		contentPane.add(lblPrezime);
+		
+		lblImeoca = new JLabel("");
+		lblImeoca.setBounds(447, 180, 123, 14);
+		contentPane.add(lblImeoca);
+		
+		lblJmbgpacijenta = new JLabel("");
+		lblJmbgpacijenta.setBounds(127, 241, 121, 14);
+		contentPane.add(lblJmbgpacijenta);
+		
+		lblAdresa = new JLabel("");
+		lblAdresa.setBounds(210, 277, 191, 14);
+		contentPane.add(lblAdresa);
+		
+		lblBrojzdravstveneknjizice = new JLabel("");
+		lblBrojzdravstveneknjizice.setBounds(450, 133, 164, 14);
+		contentPane.add(lblBrojzdravstveneknjizice);
+		
+		lblBrojtelefona = new JLabel("");
+		lblBrojtelefona.setBounds(210, 292, 191, 14);
+		contentPane.add(lblBrojtelefona);
+		
+		lblImelekara = new JLabel("");
+		lblImelekara.setBounds(325, 342, 119, 14);
+		contentPane.add(lblImelekara);
+		
+		lblPrezimelekara = new JLabel("");
+		lblPrezimelekara.setBounds(391, 342, 149, 14);
+		contentPane.add(lblPrezimelekara);
+		
+		
+		lblJmbgLekara = new JLabel("");
+		lblJmbgLekara.setBounds(95, 390, 114, 14);
+		contentPane.add(lblJmbgLekara);
+		lblJmbgLekara.setText(jmbgLekar);
+		
+		LblZvanjeLekara = new JLabel("");
+		LblZvanjeLekara.setBounds(305, 391, 256, 14);
+		contentPane.add(LblZvanjeLekara);
+		
+		lblBolest = new JLabel("Bolest");
+		lblBolest.setBounds(202, 407, 213, 14);
+		contentPane.add(lblBolest);
+		
+		lblBrojtelefonalekara = new JLabel("");
+		lblBrojtelefonalekara.setBounds(202, 423, 242, 14);
+		contentPane.add(lblBrojtelefonalekara);
+		
+		lblTrenutnidatum = new JLabel("");
+		lblTrenutnidatum.setBounds(80, 471, 132, 14);
+		contentPane.add(lblTrenutnidatum);
+		
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Frejmb16StampanjeUputa.class.getResource("/frejmovi/SlikaUputa.png")));
+		lblNewLabel.setBounds(28, 11, 557, 510);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(Frejmb16StampanjeUputa.class.getResource("/frejmovi/Background.jpg")));
+		lblNewLabel_1.setBounds(0, 0, 627, 566);
+		contentPane.add(lblNewLabel_1);
+		
+
+		lblNazivGdeSeSalje.setText(NazivUstanoveZaKojuSeIzdajeUput);
+		SifraUstanoveGdeSeSalje=Integer.parseInt(ManipulacijaSaBazom.SelektovanjeSifraZdravstveneUstanoveNaOsnovuNaziva(NazivUstanoveZaKojuSeIzdajeUput));
+		lblSifraZdrUstanove.setText(Integer.toString(SifraUstanoveGdeSeSalje));
+		lblIme.setText(pacijent.getIme());
+		lblPrezime.setText(pacijent.getPrezime());
+		lblImeoca.setText(pacijent.getImeOca());
+		lblJmbgpacijenta.setText(pacijent.getJmbgPacijent());
+		lblBrojzdravstveneknjizice.setText(Integer.toString(pacijent.getBrojZdravstveneKnjizice()));
+		lblBrojtelefona.setText(pacijent.getBrojTelefona());
+		lblAdresa.setText(pacijent.getUlicaiBroj());
+		
+		
+		ImeLekara=ManipulacijaSaBazom.SelektovanjeImenaILekara(jmbgLekar);
+		PrezimeLekara=ManipulacijaSaBazom.SelektovanjePrezimenaILekara(jmbgLekar);
+		
+		lblImelekara.setText(ImeLekara);
+		lblPrezimelekara.setText(PrezimeLekara);
+		
+		String BrojTelefona=ManipulacijaSaBazom.SelektovanjeBrojTelefona(jmbgLekar);
+		lblBrojtelefonalekara.setText((BrojTelefona).toString());
+		
+		int ZvanjeID=ManipulacijaSaBazom.SelektovanjeZvanjaIDnaOsnovuJmbga(jmbgLekar);
+		String NazivZvanja=ManipulacijaSaBazom.SelektovanjeZvanjanaOsnovuZvanjeID(ZvanjeID);
+		LblZvanjeLekara.setText(NazivZvanja);
+		
+		Calendar cal = new GregorianCalendar();
+		
+		int day=cal.get(Calendar.DAY_OF_MONTH);
+		int month=cal.get(Calendar.MONTH);
+		int year=cal.get(Calendar.YEAR);
+		
+		lblTrenutnidatum.setText(day + "/" + month + "/" + year);
+		
+		int MaxRedniBroj=ManipulacijaSaBazom.SelektovanjeMaxRednogBrojBolesti(pregledID);
+		int BolestID=ManipulacijaSaBazom.SelektovanjeBolestiIDzaUput(pregledID, MaxRedniBroj);
+		String NazivBolesti=ManipulacijaSaBazom.SelektovanjeNazivaBolestiNaOsnovuIDBolesti(BolestID);
+		lblBolest.setText(NazivBolesti);
+	}
+}
